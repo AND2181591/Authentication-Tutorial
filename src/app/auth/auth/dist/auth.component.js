@@ -9,8 +9,11 @@ exports.__esModule = true;
 exports.AuthComponent = void 0;
 var core_1 = require("@angular/core");
 var AuthComponent = /** @class */ (function () {
-    function AuthComponent() {
+    function AuthComponent(_authService) {
+        this._authService = _authService;
         this.isLoginMode = true;
+        this.isLoading = false;
+        this.error = null;
     }
     AuthComponent.prototype.ngOnInit = function () {
     };
@@ -19,7 +22,29 @@ var AuthComponent = /** @class */ (function () {
         console.log('Login mode is', this.isLoginMode);
     };
     AuthComponent.prototype.onSubmit = function (form) {
-        console.log(form.value);
+        var _this = this;
+        if (!form.valid) {
+            return;
+        }
+        var email = form.value.email;
+        var password = form.value.password;
+        this.isLoading = true;
+        if (this.isLoginMode) {
+            // ...
+        }
+        else {
+            this._authService.signup(email, password).subscribe({
+                next: function (response) {
+                    console.log(response);
+                    _this.isLoading = false;
+                },
+                error: function (error) {
+                    console.log(error);
+                    _this.error = "An error occurred";
+                    _this.isLoading = false;
+                }
+            });
+        }
         form.reset();
     };
     AuthComponent = __decorate([

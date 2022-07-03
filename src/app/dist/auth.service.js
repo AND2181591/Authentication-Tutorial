@@ -9,8 +9,16 @@ exports.__esModule = true;
 exports.AuthService = void 0;
 var core_1 = require("@angular/core");
 var AuthService = /** @class */ (function () {
-    function AuthService() {
+    function AuthService(_http) {
+        this._http = _http;
     }
+    AuthService.prototype.signup = function (email, password) {
+        return this._http.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBrmK-cW2MHjMYUhPHGkCkH7fXlRvKFlKo", {
+            email: email,
+            password: password,
+            returnSecureToken: true
+        });
+    };
     AuthService = __decorate([
         core_1.Injectable({
             providedIn: 'root'
